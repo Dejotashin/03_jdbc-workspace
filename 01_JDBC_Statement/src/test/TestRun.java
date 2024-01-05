@@ -1,9 +1,12 @@
 package test;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 
 public class TestRun {
 
@@ -34,7 +37,20 @@ public class TestRun {
 
 		// 1. 각자 pc(localhost)에 JDBC계정에 연결 한 후 TEST 테이블에 INSERT 해보기!
 		// insert문 => 처리된 행수(int) => 트랜젝션 처리
-
+		/*Scanner sc = new Scanner(System.in);
+		
+		System.out.print("번호 : ");
+		int num = sc.nextInt();
+		sc.nextLine();
+		
+		System.out.print("이름 : ");
+		String name = sc.nextLine();
+		
+		
+		
+		
+		
+		
 		// 필요한 변수들 먼저 셋팅
 		int result = 0; // 결과(처리된 행수)를 받아줄 변수
 		Connection conn = null; // DB의 연결정보를 보관할 객체
@@ -44,8 +60,13 @@ public class TestRun {
 
 		// 앞으로 실행할 sql문 작성("완성형태"로 만들어두기)
 		// 중요!!!! ("쿼리문" 안에 세미콜론 없어야됨!! 주요에러나는 부분이 여기임)
-		String sql = "INSERT INTO TEST VALUES(1, '차은우', SYSDATE)";
+		//String sql = "INSERT INTO TEST VALUES(1, '차은우', SYSDATE)";
 
+		String sql = "INSERT INTO TEST VALUES(" + num + ", '" + name + "', SYSDATE)";
+		
+		System.out.println(sql);
+		
+		
 		try {
 			// 1) jdbc driver 등록
 			// forName : class 파일 찾아서 등록한다는 의미!
@@ -97,8 +118,70 @@ public class TestRun {
 		
 		
 		
-		}
+		}*/
 
+		// 2. 내 PC에 DB상에 JDBC계정에 TEST 테이블에 있는 모든 데이터 조회해보기
+		// SELECT문 => 결과 ResultSet(조회된 데이터들 담겨있음) 받기  => ResultSet으로 부터 데이터 뽑기
+		
+		// 필요한 변수들 셋팅
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rset = null; // select문 실행하여 조회된 결과값들이 처음에 실질적으로 담길 객체
+		
+		// 실행할 sql문
+		String sql = "SELECT * FROM TEST";
+		
+		
+		try {// 1) jdbc driver 등록
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			
+			// 2) Connection 객체 생성
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "JDBC", "JDBC");
+			
+			// 3) Statement 객체 생성
+			stmt = conn.createStatement();
+			
+			// 4,5) sql문 전달해서 실행 후 결과받기
+			rset = stmt.executeQuery(sql);
+			
+			// rset.next() => 커서를 움직이는 메소드 boolean : 다음꺼가 있으면 true 없으면 false 반환
+			
+			// 6)
+			while(rset.next()) {
+				// 현재 참조하는 rset으로 부터 어떤 컬럼에 해당하는 값을
+				// 어떤 타입으로 뽑을건지 제시해야됨!
+				// db의 컬럼명 제시!(대소문자 가리지 않음!)
+				
+				int tno = rset.getInt("TNO");
+				String tname = rset.getString("TNAME");
+				Date tdate = rset.getDate("TDATE");
+				
+				System.out.println(tno + ", " + tname + ", " + tdate);
+			}
+			
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			try {
+				rset.close();
+				stmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				  e.printStackTrace();
+			}
+			
+			
+		}
+		
+		
+		
+		
 	}
 
 }
