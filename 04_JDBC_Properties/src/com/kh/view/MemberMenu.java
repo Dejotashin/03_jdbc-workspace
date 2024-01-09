@@ -45,7 +45,8 @@ public class MemberMenu {
 			case 4: String keyword = inputMemberName();
 					mc.selectByUserName(keyword);
 					break;
-			case 5: updateMember();break;
+			case 5: updateMember();
+					break;
 			case 6: mc.deleteMember(inputMemberId()); break;
 			case 0: System.out.println("이용해주셔서 감사합니다."); return;
 			default : System.out.println("메뉴를 잘못입력하셨습니다. 다시 입력해주세요.");
