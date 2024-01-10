@@ -107,7 +107,16 @@
 		
 		
 		</entry>
-		
+		<entry key="loginMember">
+			SELECT
+				   USERNAME
+			  FROM
+			  	   MEMBER
+			 WHERE
+			 	   USERID = ?
+			   AND USERPWD = ?
+			   
+		</entry>
 		
 		
 		

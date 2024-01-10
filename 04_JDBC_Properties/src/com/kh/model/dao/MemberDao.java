@@ -219,7 +219,35 @@ public class MemberDao {
 		
 	}
 	
-	
+	public String loginMember(Connection conn, String userId, String userPwd) {
+		// select문(한행) => ResultSet => String 변수
+		String userName = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("loginMember");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, userId);
+			pstmt.setString(2, userPwd);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				userName = rset.getString("username");
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return userName;
+	}
 	
 	
 	

@@ -121,6 +121,21 @@ public class MemberController {
 	
 	
 	}
+	/**
+	 * 사용자의 로그인 요청 처리해주는 메소드
+	 * @param userId	  사용자가 입력한 아이디값
+	 * @param userPwd	  사용자가 입력한 비밀번호값
+	 */
+	public void loginMember(String userId, String userPwd) {
+		
+		String userName = new MemberService().loginMember(userId, userPwd);
+		
+		if(userName == null) {// 로그인실패
+			new MemberMenu().displayFail("로그인 실패!! 아이디 또는 비밀번호를 잘못 입력하셨습니다");
+		}else { // 로그인 성공
+			new MemberMenu().displaySuccess("로그인 성공!!" + userName + "님 환영합니다");
+		}
+	}
 	
 	
 	

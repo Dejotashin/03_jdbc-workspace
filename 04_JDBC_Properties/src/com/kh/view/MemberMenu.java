@@ -28,6 +28,7 @@ public class MemberMenu {
 			System.out.println("4. 회원 이름으로 키워드 검색");
 			System.out.println("5. 회원 정보 변경");
 			System.out.println("6. 회원 탈퇴");
+			System.out.println("7. 로그인");
 			System.out.println("0. 프로그램 종료");
 			
 			System.out.print(" >> 메뉴 선택 : ");
@@ -48,6 +49,7 @@ public class MemberMenu {
 			case 5: updateMember();
 					break;
 			case 6: mc.deleteMember(inputMemberId()); break;
+			case 7: loginMember(); break;
 			case 0: System.out.println("이용해주셔서 감사합니다."); return;
 			default : System.out.println("메뉴를 잘못입력하셨습니다. 다시 입력해주세요.");
 			}
@@ -95,6 +97,20 @@ public class MemberMenu {
 		
 		
 	}
+	
+	public void loginMember() {
+	      System.out.println("\n==== 로그인 ====");
+	      
+	      String userId = inputMemberId();
+	      
+	      System.out.print("회원 비밀번호 입력 : ");
+	      String userPwd = sc.nextLine();
+	      
+	      mc.loginMember(userId, userPwd);
+	   }
+	
+	
+	
 	
 	//---------------------------- 응답화면 -------------------------------
 	/**
